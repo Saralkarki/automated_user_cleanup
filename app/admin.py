@@ -8,7 +8,11 @@ from .models import CleanupReport
 
 # Register your models here.
 # add the CleanupReport model to the admin dashboard
-admin.site.register(CleanupReport)
+class CleanupReportAdmin(admin.ModelAdmin):
+    list_display = ('id', 'timestamp', 'users_deleted', 'active_users_remaining')
+    ordering = ('-timestamp',)
+
+admin.site.register(CleanupReport, CleanupReportAdmin)
 
 class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'date_joined','is_active','is_staff')

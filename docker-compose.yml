@@ -70,7 +70,7 @@ services:
   celery-beat:
     build: .
     container_name: celery-beat
-    command: celery -A automated_user_cleanup beat --loglevel=info
+    command: celery -A automated_user_cleanup beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     depends_on:
       - db
       - redis

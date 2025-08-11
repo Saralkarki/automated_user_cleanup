@@ -11,5 +11,4 @@ class CleanupReport(models.Model):
 	def __str__(self):
 		return f"Cleanup at {self.timestamp}: {self.users_deleted} users deleted, {self.active_users_remaining} active users remaining"
 
-
-
+# Create your models here.
