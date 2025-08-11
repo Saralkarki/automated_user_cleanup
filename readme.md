@@ -17,4 +17,11 @@
 3. Postgres container
    psql -U dbuser -d dockerdjango
 
-4. Editing the admin model available in the django.contrib.auth.model
+4. Use the existing admin user model available in Django
+
+5. Create models.py to add the cleanup model
+
+- add the cleanup model in admin.py
+
+6. Automate with Celery
+   - Redis instance with docker compose
