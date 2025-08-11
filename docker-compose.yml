@@ -12,6 +12,14 @@ services:
     env_file:
       - .env
 
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - redis_data:/data
+
   web:                # renamed from django-web to web
     build: .
     container_name: django-docker
@@ -19,6 +27,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - redis
     environment:
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DEBUG: ${DEBUG}
@@ -37,3 +46,4 @@ services:
 
 volumes:
   postgres_data:
+  redis_data:

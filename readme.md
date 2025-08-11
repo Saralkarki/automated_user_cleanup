@@ -6,6 +6,9 @@
 - Setting up .env files for variables
 - setting up requirements.txt for all of the packages
 - Build Django appilication "docker compose run django-web django-admin startproject <app_name> . "
+  Source : https://forums.docker.com/t/connect-from-django-app-in-a-docker-container-to-redis-in-another-docker-container/143781
+
+  https://www.docker.com/blog/how-to-dockerize-django-app/
 
 2. Run Docker container and Django server, run migration
 
@@ -24,4 +27,17 @@
 - add the cleanup model in admin.py
 
 6. Automate with Celery
-   - Redis instance with docker compose
+
+## Experiment with celery : see the logs
+
+<code>docker exec -it django-docker celery -A automated_user_cleanup worker --loglevel=info </code>
+
+- Redis instance with docker compose
+
+## Dummy data creation and dump to database
+
+docker cp dummy_data/auth_user_inserts.sql code-avatar-db-1:/auth_user_inserts.sql
+
+docker exec -it code-avatar-db-1 bash
+
+psql -U dbuser -d dockerdjango -f /auth_user_inserts.sql
