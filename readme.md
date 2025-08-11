@@ -41,3 +41,8 @@ docker cp dummy_data/auth_user_inserts.sql code-avatar-db-1:/auth_user_inserts.s
 docker exec -it code-avatar-db-1 bash
 
 psql -U dbuser -d dockerdjango -f /auth_user_inserts.sql
+
+## added celery-beat for scheduling tasks
+
+docker logs -f celery-worker - logs celery-worker
+docker logs -f celery-beat - logs celery-beat
