@@ -19,8 +19,14 @@ def deactivate_inactive_users():
     # Get threshold from environment variable, default to 30 if not set
     days = int(os.environ.get('INACTIVITY_THRESHOLD_DAYS', 30))
     threshold = timedelta(days=days)
-    for user in User.objects.all():
-        if user.last_login and (now - user.last_login) > threshold:
-            user.is_active = False
-            user.save()
-            print(f"Deactivated {user.username} (last login: {user.last_login})")
+    # Only process users who are currently active
+    qs = User.objects.filter(is_active=True)
+    batch_size = 50
+    total = qs.count()
+    for start in range(0, total, batch_size):
+        batch = qs[start:start+batch_size]
+        for user in batch:
+            if user.last_login and (now - user.last_login) > threshold:
+                user.is_active = False
+                user.save()
+                print(f"Deactivated {user.username} (last login: {user.last_login})")
