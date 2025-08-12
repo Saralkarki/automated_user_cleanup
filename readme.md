@@ -37,13 +37,19 @@ A Django application with Celery background tasks for automated user cleanup, fe
    docker exec -it django-docker python manage.py migrate
    ```
 
-4. **Create superuser (optional)**
+4. **Load periodic tasks**
+
+   ```bash
+   docker exec -it django-docker python manage.py loaddata periodic_tasks_fixture.json
+   ```
+
+5. **Create superuser (optional)**
 
    ```bash
    docker exec -it django-docker python manage.py createsuperuser
    ```
 
-5. **Access the application**
+6. **Access the application**
    - **Dashboard**: http://localhost:8000
    - **Admin**: http://localhost:8000/admin
 
