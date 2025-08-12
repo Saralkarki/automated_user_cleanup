@@ -4,7 +4,7 @@ A Django application with Celery background tasks for automated user cleanup, fe
 
 ## Features
 
-- **Automated User Cleanup**: Celery-powered background tasks to remove inactive users
+- **Automated User Cleanup**: Two Celery tasks - `deactivate_inactive_users` (runs every minute, flags inactive users 30+ days) and `log_inactive_users` (runs every 5 minutes, deletes flagged users)
 - **REST API**: Endpoints for cleanup reports and manual triggers
 - **React Dashboard**: Real-time monitoring and manual cleanup controls
 - **Docker Compose**: Complete containerized setup
