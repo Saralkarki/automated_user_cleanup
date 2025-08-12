@@ -97,6 +97,10 @@ docker logs -f django-docker  # Django logs
 - **Frontend**: React (Vite)
 - **Containerization**: Docker Compose
 
+## Testing
+
+The project includes a `dummy_data/` directory with test data for development and testing purposes.
+
 ## Architecture
 
 ```
