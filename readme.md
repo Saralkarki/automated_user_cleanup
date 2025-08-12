@@ -96,3 +96,25 @@ docker logs -f django-docker  # Django logs
 - **Task Queue**: Celery
 - **Frontend**: React (Vite)
 - **Containerization**: Docker Compose
+
+## Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   React App     │    │   Django API    │    │   PostgreSQL    │
+│  (Dashboard)    │◄───┤   (REST API)    │◄───┤   (Database)    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+                                │
+                                ▼
+                       ┌─────────────────┐    ┌─────────────────┐
+                       │     Redis       │    │  Celery Worker  │
+                       │   (Message      │◄───┤  (Background    │
+                       │    Broker)      │    │    Tasks)       │
+                       └─────────────────┘    └─────────────────┘
+                                │
+                                ▼
+                       ┌─────────────────┐
+                       │  Celery Beat    │
+                       │  (Scheduler)    │
+                       └─────────────────┘
+```
