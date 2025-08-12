@@ -49,10 +49,11 @@ function App() {
     fetchReports()
   }, [])
 
+
   if (loading) {
     return (
       <div className="container">
-        <h1>Cleanup Reports Dashboard</h1>
+        <h1>Cleanup Reports Dashboard (Loading)</h1>
         <p className="loading">Loading cleanup reports...</p>
       </div>
     )
@@ -92,7 +93,7 @@ function App() {
           </tbody>
         </table>
       ) : (
-        <p>No reports available</p>
+        <p className="loading">Cleanup Reports Dashboard (Loading)</p>
       )}
       <button 
         className="btn btn-primary" 
