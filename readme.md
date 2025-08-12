@@ -46,3 +46,16 @@ psql -U dbuser -d dockerdjango -f /auth_user_inserts.sql
 
 `docker logs -f celery-worker` - logs celery-worker
 `docker logs -f celery-beat` - logs celery-beat
+
+Source :
+https://www.youtube.com/watch?v=y6FG-kKhGwA - celery redis implementation
+https://www.youtube.com/watch?v=t-uAgI-AUxc - django rest framework
+
+RESTFUL API endpoints:
+
+using L djago-rest framework
+Create the following RESTful API endpoints:
+• GET /api/reports/latest/ : Retrieve the most recent CleanupReport .
+• POST /api/cleanup/trigger/ : Manually trigger the cleanup task for immediate execution.
+
+Serialzers - Convert the model to JSON compatible data .

@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app',  # my app
+    # My custom apps
+    'rest_framework',
+    'app',  
     'django_celery_beat',
 ]
 
