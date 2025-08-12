@@ -1,61 +1,98 @@
-# AUTOMATED USER CLEANUP
+# Automated User Cleanup System
 
-1. Setting up Docker
+A Django application with Celery background tasks for automated user cleanup, featuring a React dashboard for monitoring and manual triggers.
 
-- Docker-compose and Dockerfile
-- Setting up .env files for variables
-- setting up requirements.txt for all of the packages
-- Build Django appilication "docker compose run django-web django-admin startproject <app_name> . "
-  Source : https://forums.docker.com/t/connect-from-django-app-in-a-docker-container-to-redis-in-another-docker-container/143781
+## Features
 
-  https://www.docker.com/blog/how-to-dockerize-django-app/
+- **Automated User Cleanup**: Celery-powered background tasks to remove inactive users
+- **REST API**: Endpoints for cleanup reports and manual triggers
+- **React Dashboard**: Real-time monitoring and manual cleanup controls
+- **Docker Compose**: Complete containerized setup
 
-2. Run Docker container and Django server, run migration
+## Quick Start
 
-- docker compose up --build -d (runs on localhost:8000 (port))
+### Prerequisites
 
-  2.1 - docker exec -it django-docker python manage.py migrate - Run migrations
-  2.2 - Creating super user : docker exec -it django-docker python manage.py createsuperuser
+- Docker and Docker Compose
+- Git
 
-3. Postgres container
-   psql -U dbuser -d dockerdjango
+### First Time Setup
 
-4. Use the existing admin user model available in Django
+1. **Environment setup**
 
-5. Create models.py to add the cleanup model
+   ```bash
+   # Copy environment template (create .env if not exists)
+   cp .env.example .env  # or create .env with required variables
+   ```
 
-- add the cleanup model in admin.py
+2. **Build and start services**
 
-6. Automate with Celery
+   ```bash
+   docker compose up --build -d
+   ```
 
-## Experiment with celery : see the logs
+3. **Run database migrations**
 
-<code>docker exec -it django-docker celery -A automated_user_cleanup worker --loglevel=info </code>
+   ```bash
+   docker exec -it django-docker python manage.py migrate
+   ```
 
-- Redis instance with docker compose
+4. **Create superuser (optional)**
 
-## Dummy data creation and dump to database
+   ```bash
+   docker exec -it django-docker python manage.py createsuperuser
+   ```
 
-docker cp dummy_data/auth_user_inserts.sql code-avatar-db-1:/auth_user_inserts.sql
+5. **Access the application**
+   - **Dashboard**: http://localhost:8000
+   - **Admin**: http://localhost:8000/admin
 
-docker exec -it code-avatar-db-1 bash
+## API Endpoints
 
-psql -U dbuser -d dockerdjango -f /auth_user_inserts.sql
+- `GET /api/reports/latest/` - Get most recent cleanup report
+- `POST /api/cleanup/trigger/` - Trigger manual cleanup
 
-## added celery-beat for scheduling tasks
+## Environment Variables
 
-`docker logs -f celery-worker` - logs celery-worker
-`docker logs -f celery-beat` - logs celery-beat
+### see .env.example
 
-Source :
-https://www.youtube.com/watch?v=y6FG-kKhGwA - celery redis implementation
-https://www.youtube.com/watch?v=t-uAgI-AUxc - django rest framework
+Create a `.env` file with:
 
-RESTFUL API endpoints:
+```env
+DJANGO_SECRET_KEY="your-secret-key-here"
+DEBUG=True
+DJANGO_ALLOWED_HOSTS=localhost,0.0.0.0
+DATABASE_NAME=dockerdjango
+DATABASE_USERNAME=dbuser
+DATABASE_PASSWORD=dbpassword
+DATABASE_HOST=db
+DATABASE_PORT=5432
+INACTIVITY_THRESHOLD_DAYS=30
+```
 
-using L djago-rest framework
-Create the following RESTful API endpoints:
-• GET /api/reports/latest/ : Retrieve the most recent CleanupReport .
-• POST /api/cleanup/trigger/ : Manually trigger the cleanup task for immediate execution.
+## Services
 
-Serialzers - Convert the model to JSON compatible data .
+- **Django Web**: http://localhost:8000
+- **PostgreSQL**: localhost:5432
+- **Redis**: localhost:6379
+- **Celery Worker**: Background task processing
+- **Celery Beat**: Task scheduling
+
+## Development
+
+### Monitor Services
+
+```bash
+docker logs -f celery-worker  # Celery worker logs
+docker logs -f celery-beat    # Celery scheduler logs
+docker logs -f django-docker  # Django logs
+```
+
+## Tech Stack
+
+- **Backend**: Django, Django REST Framework
+- **Database**: PostgreSQL
+- **Cache/Queue**: Redis
+- **Task Queue**: Celery
+- **Frontend**: React (Vite)
+- **Containerization**: Docker Compose
