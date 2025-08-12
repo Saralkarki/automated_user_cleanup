@@ -14,8 +14,7 @@ celerybeat-schedule
 node_modules/
 dist/
 
-# Static assets
-app/static/assets/
+
 
 # System files
 .DS_Store
